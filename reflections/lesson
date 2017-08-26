@@ -1,0 +1,48 @@
+WHY TO USE VERSION CONTROL SYSTEMS
+
+  Version Control systems are used to save different versions of files as they 
+  change through time. VC systems allow us to restore older versions of files
+  or compare them between different versions.VC systems also optimizes storage
+  of these versioned files so they are not same as saving each versions of the 
+  files as they are in seperate directories. They save difference between files.
+
+DIFF COMMAND AND USAGE
+  diff: This command allows us to compare two different files and show 
+  differences. Example usage is like this
+
+/code
+  diff game_old.js game_new.js
+/code
+
+And the output of diff looks like this
+
+/code
+  7d6
+  <   13: 'enter',
+  9a9
+  >   38: 'up',
+  395c395
+  <     if (KEY_STATUS.spacr) {
+  ---
+  >     if (KEY_STATUS.up) {
+  409c409
+  <     if (KEY_STATUS.enter) {
+  ---
+  >     if (KEY_STATUS.space) {
+  922c922
+  <         KEY_STATUS.space = false; // hack so we don't move right away
+  ---
+  >         KEY_STATUS.space = false; // hack so we don't shoot right away
+/code
+Note: I do not understand how to extract information from the text block above.
+But I will update this note later when I understood analyzing diff text.
+
+QUESTION 1:
+How could having easy access to the entire history of a file make you 
+a more efficient programmer in the long term?
+ANSWER:
+Being able to access history of a file allows to remember certain decisions
+if these are also supported by documentation(commenting in source code etc).
+It also helps to find the reason for suddenly malfunctioning program by 
+reverting back to working versions.Once we recognize the fault injecting 
+version; it is easy to find and fix the source with the <diff> tool.
