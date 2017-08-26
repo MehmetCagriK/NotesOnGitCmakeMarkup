@@ -1,3 +1,4 @@
 This file is created for Git tutorials.
 Version Info: 0
-
+I sacrificed everything. What have YOU given? -Edgy Demon Hunter, 2017
+Version Info: 1
