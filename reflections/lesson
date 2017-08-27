@@ -64,4 +64,29 @@ To commit a file or files, follow the sequence below
        git commit
      /code
      Note that files that are not in the staging area are not committed.
+     Note: The note above is simply false and misleading, Git commits files
+     regardless of them being in staging area or not. But the purpose of 
+     staging area is choosing which changes to commit. For example, if a file
+     is updated but it is not put into staging area before commit, that update 
+     will not be saved with that commit.
 
+QUESTION 2:
+Why do you think some version control systems, like Git, allow saving multiple
+files in one commit, while others, like Google Docs, treat each file 
+separately?
+ANSWER:
+Repository is a directory(collection of files and folders) under the 
+responsibility of Git VCS when it is initialized as Git repository 
+via git bash command;
+  
+  /code
+    git init
+  /code
+
+Note that you need to change directory to the directory you want to be 
+initialized as Git repository.
+
+Git saves all files' current version in repository when there is a commit. The
+reason why Git saves ALL files at once is those files are meaningful when
+they are together. So committing only one file does not make any sense in
+development point of view.
