@@ -127,3 +127,33 @@ to identify commits in git diff command. Consider example output below
   +There is also <git.txt> file which is a sandbox for testing git system
 /code
 
+GIT CHECKOUT
+Commits are snapshots are all files in the repository at the time of commit.
+We can temporarily switch back to earlier commit, resetting the files to 
+their older versions. This is called checkout.
+
+/code
+  git checkout <commit_id>
+/code
+
+Note: A Git commit ID is a SHA-1 hash of every important thing about the 
+commit. Some of those things are
+  1. The content, all of it, not just the diff.
+  2. Tommit date.
+  3. Tommitter's name and email address.
+  4. Tog message.
+  5. The ID of the previous commit(s).
+
+This have three advantages according to StackOverflow answer;
+  1. The system can tell if a commit has been tampered with.
+  2. One can rapidly compare commits just by looking at their IDs.
+  3. Two commits with the same IDs have the same history.
+
+QUESTION:
+How might using version control make you more confident to make changes that
+could break something?
+ANSWER:
+With version control system we have many versions of the repository files saved
+at different times. If we detect a bug in the program, we can revert to earlier 
+commits incrementally to find in which commit the bug is introduced. Then we 
+can fix the change that caused bug in a new commit.
