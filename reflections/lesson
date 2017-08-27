@@ -90,3 +90,40 @@ Git saves all files' current version in repository when there is a commit. The
 reason why Git saves ALL files at once is those files are meaningful when
 they are together. So committing only one file does not make any sense in
 development point of view.
+
+QUESTION: 
+How can you use the commands git log and git diff to view the history of files?
+ANSWER:
+When you use <git log> command(with optional parameters) you can see the commit
+history of the repository. Commit history includes commit IDs which we can use
+to identify commits in git diff command. Consider example output below
+
+/code
+  $ git log
+
+  commit 4e6648efa123e3c74caf4db31bd8f56ca6f3b5db
+  Author: Cagri Kose <mehmetcagrikose@gmail.com>
+  Date:   Sun Aug 27 12:40:33 2017 +0300
+
+      Adding README.md.
+
+  commit 5ab21b390588769ebf05cc2adc6d888ab4715aef (ZeroOrdering)
+  Merge: 8c5ae16 a9864bc
+  Author: Cagri Kose <mehmetcagrikose@gmail.com>
+  Date:   Sat Aug 26 19:06:21 2017 +0300
+
+  $ git diff 5ab2 4e66
+
+  diff --git a/README.md b/README.md
+  new file mode 100644
+  index 0000000..399c3df
+  --- /dev/null
+  +++ b/README.md
+  @@ -0,0 +1,5 @@
+  +This workplace is created to hold files used for Git-GitHub classes of Udacity
+  +in a version control system.
+  +There is a <Reflection> directory under this directory. It includes a plaintext
+  +file that contains reflections(thoughts on new information learned)
+  +There is also <git.txt> file which is a sandbox for testing git system
+/code
+
