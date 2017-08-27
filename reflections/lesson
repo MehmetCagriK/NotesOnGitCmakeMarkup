@@ -46,3 +46,22 @@ if these are also supported by documentation(commenting in source code etc).
 It also helps to find the reason for suddenly malfunctioning program by 
 reverting back to working versions.Once we recognize the fault injecting 
 version; it is easy to find and fix the source with the <diff> tool.
+
+WHEN TO COMMIT
+Git VCS has commits which are used to save changes made to the current version
+of the file. Git commits are suggested to be small, easier to understand piece 
+of changes. Each commit should represent a logical change.
+To commit a file or files, follow the sequence below
+  1. Save changes to files who are changed
+  2. Add the files to staging are;
+     /code
+       git add <filename>
+     /code
+     Staging area is a region where the files are held before they are 
+    committed.
+  3. Commit the files;
+     /code 
+       git commit
+     /code
+     Note that files that are not in the staging area are not committed.
+
