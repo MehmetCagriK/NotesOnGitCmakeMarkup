@@ -100,5 +100,13 @@ GIT CONCEPTS RECAP
      understood as last commit or repository etc. For further information, 
      refer to 1, 2, 3, 4.
 
-
+  10. BRANCH
+      When you want to experiment some feature on the project you work or 
+      simply want to make changes in an isolated(to master) fashion, you can
+      create branches for the task. Branches are simply labels for commits.
       
+      The default branch is the master branch when a git repository is 
+      initialized and it is generally main branch. If you recall the warning 
+      message about "detached HEAD state", it means you are on a commit that is
+      not labeled with a branch name. Git warns user because of commits done 
+      onto this commit will not be done on master branch.      
