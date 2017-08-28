@@ -28,6 +28,7 @@ GIT CONCEPTS RECAP
      to history.Any directory can be Git Repository. Just create a directory or
      navigate into one. Once you are in desired directory, use command 
      "git init" to convert it to Git repository.
+  
   2. STAGING AREA:
      Git allows even more control before committing changes. To commit changes
      in the files, use "git add <filename>" command to add them into staging 
@@ -42,10 +43,48 @@ GIT CONCEPTS RECAP
        - "git diff --cached" : show the changes between last commit and the 
          files in the staging area.
        - "git diff" : Show the changes between working files and staged files
-   3. COMMIT:
-      Commits are snapshots of the files at the time when <git commit> command
-      is used. Only the changes in the staging area are committed. It can be 
-      summarized as "commit_next = commit_current + staging_area". When 
-      committing, Git asks user to enter a short comment about changes and 
-      after that, commit is created.
+  
+  3. ADD
+     "<git add <filename>" command adds the file's current version into staging
+     area. Only changes in the staging area is candidate to be committed. 
+     "git reset HEAD -- <file>" command reverses this 
+  4. COMMIT:
+     Commits are snapshots of the files at the time when <git commit> command
+     is used. Only the changes in the staging area are committed. It can be 
+     summarized as "commit_next = commit_current + staging_area". When 
+     committing, Git asks user to enter a short comment about changes and 
+     after that, commit is created.
+     Note that Git does not commit the latest version of file in the working
+     directory. It commits latest version in staging area. So it is possible
+     that changing a file after putting it into staging area. When you commit,
+     changes after staging is not saved into repository. Those changes are not
+     also lost after commit as Git does not modify the files in the working.
+     See the example below
 
+     Filename                    : lesson
+     Content in working directory: "abc"
+     git add lesson              : add lesson to staging area
+     Content in staging area     : "abc"
+     Change content in work dir  : "abcdef" (Content changed after staging)
+     Content in working directory: "abcdef"
+     Content in staging area     : "abc"    (Staging area is not affected)
+     git commit                  : commit the changes in staging area
+     Content in repository       : "abc"    (Only staged changes committed)
+     Content in working directory: "abcdef" (Last version is preserved)
+  
+  5. CLONE:
+     "<git clone <repository_url>" command clones the repository with given url
+     to local storage. Clone also brings whole history of the repository.
+
+  6. DIFF
+     - "git diff <commit1> <commit2>" command shows the changes from left to 
+       right. It can be summarized as; 
+       git diff  <commit1> <commit2> = <commit2> - <commit1>
+     - "git diff --cached" : show the changes between last commit and the 
+       files in the staging area.
+     - "git diff" : Show the changes between working files and staged files.
+  7. STATUS
+     <git status> command shows modified/deleted/added files and files in the 
+     staging area.
+
+      
