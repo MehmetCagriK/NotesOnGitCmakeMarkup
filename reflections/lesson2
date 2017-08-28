@@ -1,0 +1,51 @@
+What happens when you initialize a repository? Why do you need to do it?
+
+How is the staging area different from the working directory and the repository?
+What value do you think it offers?
+
+How can you use the staging area to make sure you have one commit per logical
+change?
+
+What are some situations when branches would be helpful in keeping your history
+organized? How would branches help?
+
+How do the diagrams help you visualize the branch structure?
+
+What is the result of merging two branches together? Why do we represent it in
+the diagram the way we do?
+
+What are the pros and cons of Git's automatic merging vs. always doing merges
+manually?
+
+GIT CONCEPTS RECAP
+  1. GIT REPOSITORY: 
+     Repository is a working directory for git. It includes all
+     user provided files that are served by git version control system and some
+     git specific files(under ..git directory). The .git folder contains all 
+     the information that is necessary for your project in version control and 
+     all the information about commits, remote repository address etc. It also
+     contains a log which stores your commit history so that you can roll back
+     to history.Any directory can be Git Repository. Just create a directory or
+     navigate into one. Once you are in desired directory, use command 
+     "git init" to convert it to Git repository.
+  2. STAGING AREA:
+     Git allows even more control before committing changes. To commit changes
+     in the files, use "git add <filename>" command to add them into staging 
+     area. Files put into staging area are will be committed to repository when
+     "git commit" command is used.
+     Users do not have to add all their changed files into staging area and 
+     might want to include some changes in another commit. When you add files
+     to staging area, git takes a snapshot of that file in that time, meaning
+     changes on a file that is added to staging area does not affect the 
+     version in the staging area.
+       - "git reset HEAD -- <file>" : remove files from staging area.
+       - "git diff --cached" : show the changes between last commit and the 
+         files in the staging area.
+       - "git diff" : Show the changes between working files and staged files
+   3. COMMIT:
+      Commits are snapshots of the files at the time when <git commit> command
+      is used. Only the changes in the staging area are committed. It can be 
+      summarized as "commit_next = commit_current + staging_area". When 
+      committing, Git asks user to enter a short comment about changes and 
+      after that, commit is created.
+
