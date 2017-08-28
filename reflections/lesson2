@@ -3,9 +3,10 @@ What happens when you initialize a repository? Why do you need to do it?
 How is the staging area different from the working directory and the repository?
 What value do you think it offers?
 
-How can you use the staging area to make sure you have one commit per logical
+Q: How can you use the staging area to make sure you have one commit per logical
 change?
-
+A: You can use "git add <filename>" whenever you are done with file. This way 
+your changes later on the file would not get into commit by mistake.
 What are some situations when branches would be helpful in keeping your history
 organized? How would branches help?
 
@@ -53,13 +54,16 @@ GIT CONCEPTS RECAP
      is used. Only the changes in the staging area are committed. It can be 
      summarized as "commit_next = commit_current + staging_area". When 
      committing, Git asks user to enter a short comment about changes and 
-     after that, commit is created.
+     after that, commit is created. You can also use 
+     "git commit -m "Commit Message" to add comment preemptively. Git commit 
+     messages are generally in the command format like "Add a cake recipe".
+
      Note that Git does not commit the latest version of file in the working
      directory. It commits latest version in staging area. So it is possible
      that changing a file after putting it into staging area. When you commit,
      changes after staging is not saved into repository. Those changes are not
      also lost after commit as Git does not modify the files in the working.
-     See the example below
+     See the example below;
 
      Filename                    : lesson
      Content in working directory: "abc"
@@ -71,7 +75,7 @@ GIT CONCEPTS RECAP
      git commit                  : commit the changes in staging area
      Content in repository       : "abc"    (Only staged changes committed)
      Content in working directory: "abcdef" (Last version is preserved)
-  
+
   5. CLONE:
      "<git clone <repository_url>" command clones the repository with given url
      to local storage. Clone also brings whole history of the repository.
@@ -84,7 +88,28 @@ GIT CONCEPTS RECAP
        files in the staging area.
      - "git diff" : Show the changes between working files and staged files.
   7. STATUS
-     <git status> command shows modified/deleted/added files and files in the 
-     staging area.
+     <git status> command shows modified/deleted/added/untracked files and 
+     files in the staging area and general info about current branch.
+
+  8. LOG
+     <git log> command shows commit history as commit SHA1 key, author name and
+     email, date and commit comment.
+
+  9. WORKING DIRECTORY
+     Working directory is the directory on the local storage. It shall not be 
+     understood as last commit or repository etc. For further information, 
+     refer to 1, 2, 3, 4.
+
+  10. BRANCH
+      When you want to experiment some feature on the project you work or 
+      simply want to make changes in an isolated(to master) fashion, you can
+      create branches for the task. Branches are simply labels for commits.
+      
+      The default branch is the master branch when a git repository is 
+      initialized and it is generally main branch. If you recall the warning 
+      message about "detached HEAD state", it means you are on a commit that is
+      not labeled with a branch name. Git warns user because of commits done 
+      onto this commit will not be done on master branch.
+      FALSE COMMIT
 
       
