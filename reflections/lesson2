@@ -11,7 +11,8 @@ What are some situations when branches would be helpful in keeping your history
 organized? How would branches help?
 
 How do the diagrams help you visualize the branch structure?
-
+Diagrams help us to see the direction of relationship between commits. They 
+also show what "git log" can not show because of limitations.
 What is the result of merging two branches together? Why do we represent it in
 the diagram the way we do?
 
@@ -92,8 +93,9 @@ GIT CONCEPTS RECAP
      files in the staging area and general info about current branch.
 
   8. LOG
-     <git log> command shows commit history as commit SHA1 key, author name and
+     "git log" command shows commit history as commit SHA1 key, author name and
      email, date and commit comment.
+     "git log n1" shows last 1 commit log. You can change 1 to any number.
 
   9. WORKING DIRECTORY
      Working directory is the directory on the local storage. It shall not be 
@@ -109,4 +111,93 @@ GIT CONCEPTS RECAP
       initialized and it is generally main branch. If you recall the warning 
       message about "detached HEAD state", it means you are on a commit that is
       not labeled with a branch name. Git warns user because of commits done 
-      onto this commit will not be done on master branch.      
+      onto this commit will not be done on master branch. 
+
+      You can checkout to a branch like you can checkout to a commit. Use 
+      "git checkout <bracnh_name>". When you commit to the new branch, label
+      is applied to new commit also. So checking out branch will not go to
+      root of the branch but to tip of that branch.
+      Note: Remember to checkout to the branch after creating it. Git does not
+      automatically checkout to the newly created branch. You can use 
+      "git checkout -b <branch_name>" to automatically checkout after creation.
+      Note: You can use "git branch" to list all branches and the checked-out 
+      one(annotated with *).
+
+      Branches(or commits in general can also see their ancestor commits. They
+      don' t see if they are not merged.
+
+  11. MERGE
+      When there are multiple branches and each of them have changes on them,
+      to incorporate changes from one branch to another is called merging.
+      Simple merge logic is like below
+
+      File Content(As lines)
+      Original : ABD
+      Jake     : BDE
+      Rachel   : ABCD
+      
+      Line analysis
+      A: Jake deleted this line. This line shall NOT be in the final version.
+      B: This line exists in both versions. It shall be in the final version.
+      C: Rachel added this line. It shall be in the final version.
+      D: This line exists in both versions. It shall be in the final version.
+      E: Jake added this line. It shall be in the final version.
+
+      To merge two different branches, follow the list below;
+      1. Checkout to the branch you wanna update with changes from the other.
+      2. Type "git merge <branch_to_update> <branch_has_change>.
+      3. If there is a conflict go to step 4, if not, go to step 6.
+      4. Resolve the conflicts and save the files.
+      5. Add the files to staging area and commit them. END!
+      6. Git automatically merges commits. END!
+
+      If there is a conflict happens during merge, Git modifies the conflicted
+      files with some symbols to show what is the version of the file segment
+      in <branch_to_update>, <branch_has_change> and their common ancestor.
+       
+      Example of modified conflicted file is below
+      /code
+        <<<<<<< HEAD
+        foo
+        =======
+        bar
+        >>>>>>> <branch_has_change> 
+      /code
+
+      Code segment "foo" belongs to the <branch_to_update>.
+      Code segment "bar" belongs to the <branch_has_change>.
+      HEAD means the branch currently checked out <branch_to_update>.
+
+      A note about git merge:
+      "git merge" will also include the currently checked-out branch in the 
+      merged version. So if you have branch1 checked out, and you run git merge
+      branch2 branch3, the merged version will combine branch1 as well as 
+      branch2 and branch3. That’s because the branch1 label will update after 
+      you make the merge commit, so it’s unlikely that you didn’t want the 
+      changes from branch1 included in the merge. For this reason, you should 
+      always checkout one of the two branches you’re planning on merging before 
+      doing the merge. Which one you should check out depends on which branch 
+      label you want to point to the new commit.
+
+      Since the checked-out branch is always included in the merge, you may 
+      have guessed that when you are merging two branches, you don't need to 
+      specify both of them as arguments to git merge on the command line. If 
+      you want to merge branch2 into branch1, you can simply git checkout 
+      branch1 and then type git merge branch2. The only reason to type git 
+      merge branch1 branch2 is if it helps you keep better mental track of 
+      which branches you are merging.
+
+      Also, since the two branches are merged, the order in which they are 
+      typed into the command line does not matter. The key is to remember that
+      git merge always merges all the specified branches into the currently 
+      checked out branch, creating a new commit for that branch.
+
+      In general, it’s very common that if you make a branch, either an 
+      experimental branch or to work on a new feature, you want to periodically
+      merge master into that branch. This is because master usually contains 
+      the official version of the code, and it’s common to want experimental 
+      changes to include all of the changes to master.
+  
+  12. SHOW
+      "git show <commitSHAKey>" command shows changes between commit and its 
+      parent.
