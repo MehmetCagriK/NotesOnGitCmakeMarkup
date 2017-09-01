@@ -77,17 +77,29 @@ GIT CONCEPTS RECAP
      Content in repository       : "abc"    (Only staged changes committed)
      Content in working directory: "abcdef" (Last version is preserved)
 
+     HOW TO WRITE A COMMIT MESSAGE
+     + Keep messages short.
+     + Explain what commit does. Think it as second part of "This commit will".
+     + Be consistent at writing commit messages.
+     - Do not explain why the changes are made. But if you really need to 
+       explain, after the message leave one line blank and write the body for
+       explanation. In oneline mode, only first line(heading) of the message
+       will be shown.
+     - Do not explain how the changes are made.
+     - Do not use word "and". It means you are doing too much..
   5. CLONE:
      "<git clone <repository_url>" command clones the repository with given url
      to local storage. Clone also brings whole history of the repository.
-
   6. DIFF
      - "git diff <commit1> <commit2>" command shows the changes from left to 
        right. It can be summarized as; 
        git diff  <commit1> <commit2> = <commit2> - <commit1>
      - "git diff --cached" : show the changes between last commit and the 
-       files in the staging area.
+       files in the staging area. Synonim for --staged.
      - "git diff" : Show the changes between working files and staged files.
+     Note: Git tracks changes by lines. If a line is modified even by one 
+     letter, git shows old version as removed and new version as added.
+
   7. STATUS
      <git status> command shows modified/deleted/added/untracked files and 
      files in the staging area and general info about current branch.
@@ -95,7 +107,30 @@ GIT CONCEPTS RECAP
   8. LOG
      "git log" command shows commit history as commit SHA1 key, author name and
      email, date and commit comment.
-     "git log n1" shows last 1 commit log. You can change 1 to any number.
+     
+     To navigate the log;
+     - j(or down arrow) to move down one line at a time
+     - d to move down by half the page screen
+     - f to move down by a whole screen
+     - k(or down arrow) to move up one line at a time
+     - u to move up by half the page screen
+     - b to move up by a whole screeni
+     - q to quit the log
+
+     --oneline: To print "git log" in one line use --oneline flag after 
+       "git log". Oneline format has shorter SHA-1 key(first 7 character) and 
+       commit message only.
+     --graph: Prints ancestory lines between commits. By default, commits are 
+        shown in chronological order.
+     --stat: In addition to default log, --stat flag lists the files that were changed
+       as well as the number of added/removed lines.
+     -p: This flag also commands log to show actual differences for each commit.    
+     -n1: This flag allows to select number of commits to be listed.
+     -<SHA-1 Key>: With SHA-1 key of commit, git log will start listing commits
+                   from the commit number given instead of HEAD.
+
+
+
 
   9. WORKING DIRECTORY
      Working directory is the directory on the local storage. It shall not be 
@@ -199,5 +234,181 @@ GIT CONCEPTS RECAP
       changes to include all of the changes to master.
   
   12. SHOW
+      "git show" commit will show only one commit. Its output is exactly same
+      as "git log -p". Without any argument, it will show the most revent 
+      commit(does not have to be tip of the current branch, last checked out
+      commit is better expression).
       "git show <commitSHAKey>" command shows changes between commit and its 
       parent.
+      
+      --patch:Or -p, is default with "git show"
+      --stat: With this flag, patch information(change between commits simply)
+        will not be shown. To add patch information, add -p again.
+      -w: Ignore whitespaces.
+
+WHAT IS IN .GIT FOLDER
+Git VVS creates .git folder when a folder is initialized as Git repository. 
+Here are the contents of .git directory.
+  - HEAD: This file points to current branch you checked out.Example content;
+    /code
+      ref: refs/heads/master
+    /code
+  
+  - config file: All project specific configuration settings are stored. Git 
+    looks for configuration file in the Git directory(.git/config) of the 
+    repository you are currently using. These are repository(project) specific.
+    Example content;
+    /code
+      [core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+        ...
+    /code
+  
+  - description file: This file is used by GitWeb program. Example content;
+    /code
+      Unnamed repository; edit this file 'description' to name the repository.
+    /code
+  
+  - hooks directory: This directory may include client/server-side scripts that
+    can be used to "hook"(like callback) into Git's different lifecycle events.
+    Some examples like pre-commit.sample, pre-push.sample exist.Example content
+    /code
+      applypatch-msg.sample*  post-update.sample*     pre-commit.sample*
+      pre-push.sample*    pre-receive.sample* commit-msg.sample*      
+      pre-applypatch.sample*  prepare-commit-msg.sample*  pre-rebase.sample*  
+      update.sample*
+    /code  
+  
+  - info directory: Contains global excludes. Can be used to exclude 
+    intermediate files like .s, .o, .a etc.
+    /code
+      $ cat info/exclude
+      # git ls-files --others --exclude-from=.git/info/exclude
+      # Lines that start with '#' are comments.
+      # For a project mostly in C, the following would be a good set of
+      # exclude patterns (uncomment them if you want to use them):
+      # *.[oa]
+      # *~
+    /code
+  - objects directory: Contains all the commits we have made.
+  - refs directory: this directory hold pointers to commits(basically branches
+    and tags)
+  Note: Other than hooks directory is the only place where users should modify
+        in .git directory.
+  
+INTERNALS OF GIT
+"Git is fundamentally a content-addressable filesystem with VCS user 
+interface written on top of it.
+GIT OBJECTS
+  BLOB OBJECTS
+  Git is a content-addressable file system. It means that at the core of Git is
+  a simple key-value data store. Objects are given a SHA1 key which is checksum
+  of the content plus a header when they are added to Git VCS. This part is 
+  important, in these objects filename is not stored.
+
+  TREE OBJECTS
+  Tree objects solve problem of storing the filenames and allows you to store
+  a group of file together. Every tree object contains one or more tree entries
+  (each of which contains a SHA-1 pointer to a blob or subtree with its 
+  associated mode, type and filename) and blob entries representing blob objects
+  under that tree. Tree entries can be seen as representing directories and blobs
+  represent files.
+
+  COMMIT OBJECTS
+  The format for a commit object is simple: it specifies the top-level tree for 
+  the snapshot of the project at that point; the author/committer information 
+  (which uses your user.name and user.email configuration settings and a 
+  timestamp); a blank line, and then the commit message.Example of 
+  commit/tree/blob objects looked into with "git cat-file -p <object_key>".
+  /code
+    ## looking at the content of commit object starts with 7b29
+    $ git cat-file -p 7b29
+    tree 8929d876b843b46941ebdffab9f70ecbd3c119a5
+    parent ce599169dffac4ed76ef2f48469545eb42827afb
+    parent 71fd16ec579a87d6426e9651855c9c1c4b13a03d
+    author Cagri Kose <mehmetcagrikose@gmail.com> 1503943895 +0300
+    committer Cagri Kose <mehmetcagrikose@gmail.com> 1503943895 +0300
+
+    Merge commit '71fd16e'
+
+    ## Looking at the content of tree object in the commit above
+    ## Tree object in the commit is basically top level directory of that commit
+    ## We can see two files and one directory is in this directory
+    git cat-file -p 8929
+    100644 blob 399c3df580bda95732e26f29653bfab85b426e89    README.md
+    100644 blob 7e23a6a9f2fa053def4534a208acca783141e8e3    git.txt
+    040000 tree 7d82442565bc531c8ce9cd981e5ee64cf4d51c5d    reflections
+
+    ## We can see two blob in the tree above(reflections)
+    $ git cat-file -p 7d82
+    100644 blob 4eb7a69d3ad1a37503fc0084de8be612d0b14d80    lesson1
+    100644 blob 26195f9d856746c5751f98df264b2fdbf751eb0b    lesson2
+
+    
+    ## Finally we look into git.txt object with its key
+    This file is created for Git tutorials.
+  /code
+
+REFERENCES
+References are files in which you can store the SHA-1 value under simple name
+so you can use that pointer instead of remembering 40 character SHA-1 key. 
+Under .git directory, there is /refs directory which in turn contains two 
+directories called /heads and /tags. /heads directory contains the latest 
+commits(?) in master branch and other branches.
+  HEAD: This is a symbolic reference to last commit you checked out. HEAD file
+  can point to master branch's tip, other branches' tip or any other commit 
+  which is not a tip for any branch. Example content of HEAD is below;
+  /code
+    ## Content of HEAD when you checked out master branch
+    $ cat ../../HEAD
+    ref: refs/heads/master
+
+    ## Content of HEAD when you checked out any non-master branch
+    $ cat .git/HEAD
+    ref: refs/heads/ZeroOrdering
+
+    ## Content of HEAD when you checked out any non-tip commit
+    $ cat .git/HEAD
+    a9864bcfd310d72adb42c2b793e407640be1eee8
+    /code
+    Note that when you are on tip of any branch(master or non-master), HEAD
+    file points to "/refs/heads" directory instead of SHA-1 key.
+
+TAGS
+The tag object is similar to commit object. Contents of it are tagger, date, 
+message and pointer to a commit(Note that commit points to tree object). Tags
+are like branch references but unlike branch references
+(master, ZeroOrdering etc) tags are not updated to any other commit after new 
+commit is made. They point to same commit until user updates them to a new one.
+
+GIT PACKFILES
+When you modify a file and commit it, Git creates a second file of similar size
+compared to original. Git stores modified versions of files in "loose object"
+format. Loose object format is a format without any compression. But Git can
+store the initial file as whole then modified versions with only delta compared
+to original file. Git does this when you have too many "loose objects" in 
+repository, manually command "git gc" or when you push to a remote repository.
+
+GIT IGNORE FILES
+Sometimes we add files into the directory where Git repository is stored but we
+do not want them to be handled by Git. To tell Git to ignore files, we can use
+<.gitignore> file. <.gitignore> works same as ".git/info/exclude" but with one
+difference. <.gitignore> is specific to project and when the repository is 
+cloned, it is cloned too. Files/patterns in the <.gitignore> kind of  
+project-wide decision. On the other hand, ".git/info/exclude" is local. 
+Look at the list below to create patterns for ignore files in both methods;
+1- '*'   matches 0 or more characters
+2- '?'   matches 1 or more characters
+3- [abc] matches a or b or c
+4- '**'  matches nested directories like "a/**/z"
+
+Example pattern to ignore all ".jpg" files under sample folders and its 
+subfolders: "samples/**/*.jpg".
+
+TAGS(CONCEPTUAL)
+Tags can be seen as static versions of branches. Branches themselves were 
+simply labels for commits if you remember. With tags, we can point to commits
+with hopefully more descriptive labels.
