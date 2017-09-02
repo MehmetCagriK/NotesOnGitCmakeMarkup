@@ -161,10 +161,27 @@ GIT CONCEPTS RECAP
       Branches(or commits in general can also see their ancestor commits. They
       don' t see if they are not merged.
 
+      - "git branch <branch_name>": Creates a branch from the most recent 
+        commit.
+      - "git branch <branch_name> <commit_SHA1_key>": Creates a branch from 
+        given commit.
+      - "git checkout -b <branch_name>": Automatically checks out to branch
+        created. "checkout -b" can be used with commit SHA1 key too.
+      - "git branch -d <branch_name>": Deletes the branch with given name.
+      - "git branch": Lists all branches in repository. Git does not allow to
+        delete a branch which has commits are not any other branch(merged). Git
+	also does not allow you to delete the branch you are currently on.
+
   11. MERGE
       When there are multiple branches and each of them have changes on them,
       to incorporate changes from one branch to another is called merging.
-      Simple merge logic is like below
+      There are two types of merges exist: regular merge and fast forward. 
+      Regular merge happens when you merge two branches that have at least one
+      commit after the commit they are seperated(the commit used as branch's 
+      starting point). Fast-forward occurs when only one branch has commits 
+      after seperation commit.
+
+      Simple merge logic is like below:
 
       File Content(As lines)
       Original : ABD
@@ -178,6 +195,11 @@ GIT CONCEPTS RECAP
       D: This line exists in both versions. It shall be in the final version.
       E: Jake added this line. It shall be in the final version.
 
+      However, merges may not be automatically completed by Git when conflict
+      happens. Conflict happens when exact same lines are modified by branches
+      joining the commit. Git can not decide automatically, so leaves the 
+      decision to user.
+
       To merge two different branches, follow the list below;
       1. Checkout to the branch you wanna update with changes from the other.
       2. Type "git merge <branch_to_update> <branch_has_change>.
@@ -188,25 +210,32 @@ GIT CONCEPTS RECAP
 
       If there is a conflict happens during merge, Git modifies the conflicted
       files with some symbols to show what is the version of the file segment
-      in <branch_to_update>, <branch_has_change> and their common ancestor.
+      in branch being updated, branch being merged in and their common 
+      ancestor.
        
       Example of modified conflicted file is below
       /code
         <<<<<<< HEAD
         foo
+        ||||||| merged common ancestors
+        zor
         =======
         bar
         >>>>>>> <branch_has_change> 
       /code
 
-      Code segment "foo" belongs to the <branch_to_update>.
-      Code segment "bar" belongs to the <branch_has_change>.
+      Code segment "foo"(annotated with <<<<<<<) belongs to the branch being 
+        updated.
+      Code segment "zor"(annotated with |||||||) belongs to original lines before
+        being changed by both branches.
+      Code segment "bar"(annotated with =======)  belongs to the branch being
+        merged in.
       HEAD means the branch currently checked out <branch_to_update>.
 
       A note about git merge:
       "git merge" will also include the currently checked-out branch in the 
-      merged version. So if you have branch1 checked out, and you run git merge
-      branch2 branch3, the merged version will combine branch1 as well as 
+      merged version. So if you have branch1 checked out, and you run "git 
+      merge branch2 branch3", merged version will combine branch1 as well as 
       branch2 and branch3. That’s because the branch1 label will update after 
       you make the merge commit, so it’s unlikely that you didn’t want the 
       changes from branch1 included in the merge. For this reason, you should 
@@ -227,11 +256,21 @@ GIT CONCEPTS RECAP
       git merge always merges all the specified branches into the currently 
       checked out branch, creating a new commit for that branch.
 
+      When a merge happens, Git will:
+        - Look at the branches that it's going to merge
+        - Look back along the branch's history to find a single commit that 
+          both branches have in their commit history
+        - Combine the lines of code that were changed on the separate branches
+          together makes a commit to record the merge
+
       In general, it’s very common that if you make a branch, either an 
       experimental branch or to work on a new feature, you want to periodically
       merge master into that branch. This is because master usually contains 
       the official version of the code, and it’s common to want experimental 
       changes to include all of the changes to master.
+
+      Note: If you made a merge on wrong commits, to reset it: type
+      "git reset --hard HEAD^".
   
   12. SHOW
       "git show" commit will show only one commit. Its output is exactly same
@@ -245,6 +284,13 @@ GIT CONCEPTS RECAP
       --stat: With this flag, patch information(change between commits simply)
         will not be shown. To add patch information, add -p again.
       -w: Ignore whitespaces.
+  13. CHECKOUT
+      Checkout is one of the most important commands in Git. It allows users
+      to navigate between branches or commits. Type "git checkout <branch_name"
+      or "git checkout <commit_SHA1_key>" to navigate to a certain branch or
+      a commit. Commit parameter does not have to be written fully. You can
+      write first 'n' characters that are unique to that commit among all 
+      commits in the repository.
 
 WHAT IS IN .GIT FOLDER
 Git VVS creates .git folder when a folder is initialized as Git repository. 
@@ -412,3 +458,33 @@ TAGS(CONCEPTUAL)
 Tags can be seen as static versions of branches. Branches themselves were 
 simply labels for commits if you remember. With tags, we can point to commits
 with hopefully more descriptive labels.
+There are two types of tags: lightweight and annotated. 
+  - Lightweight tag: Only the label
+  - Annotated tag  : label, the person who tagged and date.
+Annotated tags are generally superior to lightweight tags with more info. 
+  - "git tag -a <tag_label>": Create an annotated tag for current commit. "-a"
+    flag is for choosing annotated tag. If you do not use it, you create 
+     lightweight tag.  
+  - "git tag": List the tags in the repository.
+  - "git tag -d <tag_label>": Delete the given tag.
+  - "git tag -a <tag_label> <commit_key>": Create a tag for another commit. Use
+    this to create a tag without checking out that particular commit.
+
+HEAD
+HEAD is the pointer that points to most recent commit. You can see where HEAD
+points to with git log command. When you do a commit, you can understand where 
+will the commit applied to by checking HEAD. 
+
+Example outputs of git log related to HEAD;
+/code
+## When on a branch, HEAD points to tip of the branch and "git log" prints the
+## name of the branch alongside "HEAD".
+$ git log
+commit 729c9d3ca92333cd2a45ccc6f4fe9a035fd568fb (HEAD -> EasyMode)
+
+## When on a random commit(that is not tip of any branch), "git log" prints 
+## "HEAD" only.
+$ git log
+commit 1ebe1183cefb642f2ad45444b98b3b0528b5f24c (HEAD)
+/code
+

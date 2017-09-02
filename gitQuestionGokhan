@@ -1,0 +1,6 @@
+1- What about lack of experience on Git
+2- Which client application will be used(assuming not everybody will use bash)
+3- What about dangerous git commands like revert, reset etc. These can be 
+   problematic for certification.
+4- Will git lfs be used.
+5- Why did i not use question mark after questions?
