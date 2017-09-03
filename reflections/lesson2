@@ -488,3 +488,22 @@ $ git log
 commit 1ebe1183cefb642f2ad45444b98b3b0528b5f24c (HEAD)
 /code
 
+UNDOING CHANGES
+Git allows us to undo some of the changes. Let's see these commands.
+  AMEND
+  This flag allows us to modify the most recent commit. You might have 
+  forgotten to include some changes in the last commit or simply you did not
+  like something about last commit. This is the command you should use.
+  
+  If your working directory is clean, meaning you have not changed any files
+  after last commit, using "git commit --amend" will allow you to write new
+  commit message and commit it when you save it. But this just changes commit
+  message and it is not real purpose of amend.
+
+  To include changes that you want to add to last commit, follow the steps;
+  1- Edit/add/delete files
+  2- Save all changes
+  3- Add files to staging area
+  4- Type "git commit --amend" 
+
+  This way, without creating a new one: you can change last commit.
