@@ -506,4 +506,14 @@ Git allows us to undo some of the changes. Let's see these commands.
   3- Add files to staging area
   4- Type "git commit --amend" 
 
-  This way, without creating a new one: you can change last commit.
+  This way, without creating a new one: you can change last commit. But notice
+  that you are replacing old commit with a new one instead of doing things you 
+  wanted to do in two consecutive commits. Your last commit will still change
+  since you modified files and possibly commit message. This will result in new
+  SHA-1 key for commit also.
+
+  GIT REVERT
+  This flag allows us to revert any commit meaning, reverting any changes done
+  with the given commit and creates a new commit. This part is important: it
+  makes the opposite changes of a commit with given SHA-1 key and makes a new 
+  commit
