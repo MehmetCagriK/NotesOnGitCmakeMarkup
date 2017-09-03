@@ -510,10 +510,111 @@ Git allows us to undo some of the changes. Let's see these commands.
   that you are replacing old commit with a new one instead of doing things you 
   wanted to do in two consecutive commits. Your last commit will still change
   since you modified files and possibly commit message. This will result in new
-  SHA-1 key for commit also.
+  SHA-1 key for commit also. 
+
+  When you check the difference comes with this commit, you will see that it 
+  shows differences of original commit plus differences of amending commit.
 
   GIT REVERT
   This flag allows us to revert any commit meaning, reverting any changes done
   with the given commit and creates a new commit. This part is important: it
   makes the opposite changes of a commit with given SHA-1 key and makes a new 
-  commit
+  commit.
+ 
+  To revert a commit, type "git revert <commit_SHA1_key>".
+  
+  How does reset work on merge commit: In this special case, user needs to 
+  enter extra parameters to tell Git which parent's changes you want to keep.
+   
+  - "git revert -m 1 <merge_commit>": Git reverts the changes coming from 
+    second commit. 
+  - "git revert -m 1 <merge_commit>": Git reverts the changes coming from 
+    first commit. 
+
+  GIT RESET
+  This command allows us to reset the commit given. Resetting means cancelling 
+  last commit operation but according to the parameters used, changes of reset
+  commit maybe saved or deleted. But before delving into the details of reset,
+  let's consider relative commit references in Git.
+    RELATIVE COMMIT REFERENCES
+    Most of the Git commands take commit SHA-1 key, tags, branch names and the
+    HEAD pointer to refer a commit. But sometimes we will need to refer a 
+    commit by another known commit. Since Git commits only know their ancestors
+    direction of references called ancestry references. Both '^' and '~' 
+    characters are used to refer to ancestor commits but there is a nuance 
+    between them when they take a number to the right of them. For sake of 
+    understanability parent and ancestor commit terms will be used.
+
+    *parent: The commit or commits one level before current commit. Remember
+             that merge commits have two parents. After merge, only one branch
+             moves(gets updated). First parent commit means the parent commit
+             belongs to same branch as current commit. Second parent means(only
+             meaningful for merge commits) the parent commit belongs to other
+             branch joining the merge operation(merged-in branch to be exact)
+    *ancestor: The commit 'n'th level parent of current commit. For example:
+             '~2' means parent of parent commit.
+
+    - '^' : This is simply parent commit. By default, this is equal to "^1"
+    - '^n': 'n' is extra parameter to represent order of immediate parents.
+            'n1' is first parent and 'n2' is second parent.
+    - '~' : This is simply parent commit. By default, this is equal to "~1"
+    - '~n': This is 'n'th level ancestor commit. Ancestry follows through 
+            current branch.
+
+    Note: At first sight ancestry references are hard to understand without a
+          visual example. So check the example below to understand better.
+    /code
+      * commit dd968cf87826467720289d92dbd1f41d52029196(HEAD->master) 
+      |
+      * commit 97c068106eafac151164967b0ee0a1a7f134c52b
+      |
+      *   commit 7b2995e1b08392a6f8505e32bb3d598d589c7c13
+      |\  
+      | * commit 71fd16ec579a87d6426e9651855c9c1c4b13a03d
+      | |
+      | * commit e9651855c9c1c4b13a03d71fd16ec579a87d6426
+      | |
+      * | commit ce599169dffac4ed76ef2f48469545eb42827afb
+      |/  
+      |   
+      * commit 2642e7676554417062ad26e69415760823f2c260
+      |  
+    /code
+    
+    Lets write down various references to each commit above. First 4 letters of
+    SHA-1 keys will be used as simplicity
+    
+      Commit Name       Ref_1       Ref_2       Ref_3       Ref_4
+    -   dd96            HEAD~0
+    -   97c0            HEAD^       HEAD^1      HEAD~       HEAD~1
+    -   7b29            HEAD^^      HEAD^^1     HEAD~2
+    -   71f1            HEAD^^^2    HEAD~2^2 
+    -   ce59            HEAD^^^     HEAD~3      HEAD~2^     HEAD~2^1
+    -   e965            HEAD^^^2^   HEAD~2^2^ 
+    -   2642            HEAD^^^^    HEAD~4      HEAD~2^2^^
+
+    Note that you can use '^' and '~' in mixed format to traverse all commit 
+    history without referring to commits by their SHA-1 key.
+
+
+  - "git reset --mixed HEAD^": This cancels the changes the current commit makes
+                               and puts them into working directory. Useful when
+                               you want to modify files that you are already 
+                               committed with current commit.
+  - "git reset --soft HEAD^" : This cancels the changes the current commit makes
+                               and puts them into staging area. Useful when you 
+                               don' t want to modify files that changed in the 
+                               last commit but want to do another thing like 
+                               adding new files or changing commit message etc.
+  - "git reset --hard HEAD^" : This cancels the changes the current commit makes
+                               and puts them into trash. This is a serious 
+                               operation and users are suggested to create a 
+                               branch at current commit before doing this 
+                               operation.
+
+  How does reset work on merge commit: In this special case, Git saves the 
+  changes that belong to reset commit into a working directory or staging area
+  depending on your flag cohice for reset operation(mixed or soft, with hard 
+  changes are gone).When you commit these changes, you will merge changes of 
+  branches without actually merging branches.
+
