@@ -39,3 +39,9 @@ Let's see the steps below needed before we use remote repositories.
    /code
      $ git push origin master
    /code
+QUESTION: When would you want to use a remote repository rather than keeping 
+all your work local?
+ANSWER  : Remote repositories are useful for collaboration. People can access
+  to your repository, get changes from or send changes to it if it is allowed.
+  Remote repository can also be seen as backup in case of failure in local 
+  computer.
