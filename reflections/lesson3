@@ -1,0 +1,41 @@
+# This file is created to write reflections about Github.
+When interacting with GitHub, information you send and receive is in the form
+of Git commits. Changes must be committed before they are sent to Github 
+repositories.
+Similar to commits, Github allows users when to synchronize Github and local
+repositories. 
+Git has a concept of remote repository. Remote repository is a repository 
+that's location is known and you want to send commits to or get commits from.
+The most common way of sending commits is pushing a branch. When you push a
+branch or a commit, git will start from the commit or tip of branch and send 
+all commits reachable until it encounters a commit in Github repository. 
+Remember that a git commits with same SHA-1 keys are the same commits with same
+history. So Git does not bother checking if commit SHA-1 keys are equal. It 
+knows already that history and content is the same.
+
+Let's see the steps below needed before we use remote repositories.
+1- First create an empty GitHub repository
+2- Copy the URL of the repository to clipboard
+3- Add newly created GitHub repository as remote repository with a name.
+   /code
+     ## origin is choosen by user
+     $ git remote add  origin https://github.com/MehmetCagriK/Reflections2
+   /code
+4- Check if remote repository is added succesfully with "git remote -v"
+   /code
+     ## -v means verbose(more information). This flag shows URL's to fetch
+     ## and push.
+
+     $ git remote -v
+     origin  https://github.com/MehmetCagriK/Reflections2 (fetch)
+     origin  https://github.com/MehmetCagriK/Reflections2 (push)
+   /code
+5- Save your GitHub credentials(username/password) in Git, so you don' t have 
+   to enter again and again.
+   /code
+     git config --global credential.helper wincred
+   /code
+6- Push one of your branches in your local repository into remote repository.
+   /code
+     $ git push origin master
+   /code
