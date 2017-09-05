@@ -39,9 +39,81 @@ Let's see the steps below needed before we use remote repositories.
    /code
      $ git push origin master
    /code
+7- Pull one of the branches of remote repository into local repository.
+   /code
+     $ git pull origin master
+   /code
+
 QUESTION: When would you want to use a remote repository rather than keeping 
-all your work local?
+          all your work local?
 ANSWER  : Remote repositories are useful for collaboration. People can access
-  to your repository, get changes from or send changes to it if it is allowed.
-  Remote repository can also be seen as backup in case of failure in local 
-  computer.
+          to your repository, get changes from or send changes to it if it is
+	  allowed. Remote repository can also be seen as backup in case of 
+	  failure in local computer.
+
+QUESTION: Why might you want to always pull changes manually rather than having
+          Git automatically stay up-to-date with your remote repository?
+ANSWER  : Pull operation gets latest changes made to remote repository. But 
+          when we work on something, we might not want to get latest version 
+          without our control since it may create conflicts or break our code
+          and we will need to deal with it first.
+
+FORK
+  GitHub has a feature called forking. This allows you to copy a repository into
+  your account without having download it first than push to your account. To 
+  make changes you still need to clone that repository into your computer.
+  Some qualities of fork
+  1- You can see how many people "forked" your repository.
+  2- Forked repositories are linked to original repositories.
+  3- You can suggest changes done on fork to original repository.
+QUESTION: Describe the differences between forks, clones, and branches. When 
+          would you use one instead of another?
+ANSWER  : Fork is a copy of GitHub repository in someone else's account. Clone
+          is a copy of GitHub repository in local computer. Branch is not copy 
+          of anything but a label for branch, used to diverge commit history 
+          and to make isolated changes.
+          When a person is not allowed to make direct changes on a remote 
+          repository, he can fork the repository into his account as it was his
+          own repository. GitHub also allows changes suggested by forked 
+          repositories to original ones.
+          Clone is used to download any remote repository into local computer.
+          Question is not structured well i believe.
+
+FETCH
+Imagine a scenario where you cloned a repository. Then you made a commit into 
+your repository. At the same time, another person made a change to GitHub 
+repository. Then you typed "git fetch origin" to get the changes made on remote
+repository. Let's see how git status changes for each operation below;
+
+1- You made a commit to local repository. At this point, Git is not aware of 
+   the changes made on remote repository and it will say "You are ahead 1 
+   commit". Also when you type "git log ", you will see master branch has one 
+   more commit ahead of origin/master branch.
+2- You fetched changes from the origin. At this point, Git is aware of changes
+   in the remote repository. It will say "Your branch and 'origin/master' have
+   diverged, and have 1 and 1 different commits each, respectively.". If you 
+   made conflicting changes, you need to merge both branches manually to 
+   resolve conflict.
+   Note: Fetch operation updates 'origin/master' branch instead of updating 
+   both 'origin/master' and 'master'.
+3- Now you both made a commit on top of last common commit and you want to 
+   merge. There is a shorter way instead of fetching then merging. Type 
+   "git pull origin" to automatically fetch then merge operation in one 
+   command.
+
+QUESTION: What is the benefit of having a copy of the last known state of the
+          remote stored locally?  
+ANSWER  : Having a last known state allows developers to be aware of state
+          of latest state of project so when they make changes locally, they
+          will be aware of conflicting changes before hand. Also having the 
+          latest changes have benefits as usual.
+          
+PULL REQUEST
+GitHub provides a useful feature to have feedback on changes before pushing
+them into remote repository's master branch. Just make your changes isolated
+in a branch, than push it to remote repository. Then get to GitHub repository's
+web page. Switch to your newly pushed change branch, and click "Pull Request".
+
+
+
+   

@@ -179,7 +179,9 @@ GIT CONCEPTS RECAP
       Regular merge happens when you merge two branches that have at least one
       commit after the commit they are seperated(the commit used as branch's 
       starting point). Fast-forward occurs when only one branch has commits 
-      after seperation commit.
+      after seperation commit. Also if the branch you want to merge in has
+      reachability to your current branch, merge operation will be 
+      fast-forward.
 
       Simple merge logic is like below:
 
