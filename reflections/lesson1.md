@@ -1,23 +1,23 @@
-WHY TO USE VERSION CONTROL SYSTEMS
+# WHY TO USE VERSION CONTROL SYSTEMS
 
-  Version Control systems are used to save different versions of files as they 
-  change through time. VC systems allow us to restore older versions of files
-  or compare them between different versions.VC systems also optimizes storage
-  of these versioned files so they are not same as saving each versions of the 
-  files as they are in seperate directories. They save difference between 
-  files.
+Version Control systems are used to save different versions of files as they 
+change through time. VC systems allow us to restore older versions of files
+or compare them between different versions.VC systems also optimizes storage
+of these versioned files so they are not same as saving each versions of the 
+files as they are in seperate directories. They save difference between 
+files.
 
-DIFF COMMAND AND USAGE
+## Diff Command and Usage
   diff: This command allows us to compare two different files and show 
   differences. Example usage is like this
 
-/code
+```bash
   diff game_old.js game_new.js
-/code
+```
 
 And the output of diff looks like this
 
-/code
+```bash
   7d6
   <   13: 'enter',
   9a9
@@ -34,36 +34,42 @@ And the output of diff looks like this
   <         KEY_STATUS.space = false; // hack so we don't move right away
   ---
   >         KEY_STATUS.space = false; // hack so we don't shoot right away
-/code
-Note: I do not understand how to extract information from the text block above.
-But I will update this note later when I understood analyzing diff text.
+```
 
-QUESTION 1:
+**Note:** I do not understand how to extract information from the text block
+above.  But I will update this note later when I understood analyzing diff
+text.
+
+**QUESTION 1:**
 How could having easy access to the entire history of a file make you 
 a more efficient programmer in the long term?
-ANSWER:
+**ANSWER:**
 Being able to access history of a file allows to remember certain decisions
 if these are also supported by documentation(commenting in source code etc).
 It also helps to find the reason for suddenly malfunctioning program by 
 reverting back to working versions.Once we recognize the fault injecting 
-version; it is easy to find and fix the source with the <diff> tool.
+version; it is easy to find and fix the source with the `diff` tool.
 
-WHEN TO COMMIT
+## When to Commit
 Git VCS has commits which are used to save changes made to the current version
 of the file. Git commits are suggested to be small, easier to understand piece 
 of changes. Each commit should represent a logical change.
 To commit a file or files, follow the sequence below
   1. Save changes to files who are changed
   2. Add the files to staging are;
-     /code
+
+     ```bash
        git add <filename>
-     /code
+     ```
+
      Staging area is a region where the files are held before they are 
     committed.
   3. Commit the files;
-     /code 
+
+      ```bash
        git commit
-     /code
+     ```
+
      Note that files that are not in the staging area are not committed.
      Note: The note above is simply false and misleading, Git commits files
      regardless of them being in staging area or not. But the purpose of 
@@ -71,18 +77,18 @@ To commit a file or files, follow the sequence below
      is updated but it is not put into staging area before commit, that update 
      will not be saved with that commit.
 
-QUESTION 2:
+**QUESTION 2:**
 Why do you think some version control systems, like Git, allow saving multiple
 files in one commit, while others, like Google Docs, treat each file 
 separately?
-ANSWER:
+**ANSWER:**
 Repository is a directory(collection of files and folders) under the 
 responsibility of Git VCS when it is initialized as Git repository 
 via git bash command;
   
-  /code
+  ```bash
     git init
-  /code
+  ```
 
 Note that you need to change directory to the directory you want to be 
 initialized as Git repository.
@@ -92,14 +98,14 @@ reason why Git saves ALL files at once is those files are meaningful when
 they are together. So committing only one file does not make any sense in
 development point of view.
 
-QUESTION: 
+**QUESTION:**
 How can you use the commands git log and git diff to view the history of files?
 ANSWER:
-When you use <git log> command(with optional parameters) you can see the commit
+When you use `git log` command(with optional parameters) you can see the commit
 history of the repository. Commit history includes commit IDs which we can use
 to identify commits in git diff command. Consider example output below
 
-/code
+```bash
   $ git log
 
   commit 4e6648efa123e3c74caf4db31bd8f56ca6f3b5db
@@ -128,18 +134,19 @@ to identify commits in git diff command. Consider example output below
   +plaintext
   +file that contains reflections(thoughts on new information learned)
   +There is also <git.txt> file which is a sandbox for testing git system
-/code
+```
 
-GIT CHECKOUT
+## git checkout
+
 Commits are snapshots are all files in the repository at the time of commit.
 We can temporarily switch back to earlier commit, resetting the files to 
 their older versions. This is called checkout.
 
-/code
+```bash
   git checkout <commit_id>
-/code
+```
 
-Note: A Git commit ID is a SHA-1 hash of every important thing about the 
+**Note:** A Git commit ID is a SHA-1 hash of every important thing about the 
 commit. Some of those things are
   1. The content, all of it, not just the diff.
   2. Commit date.
@@ -152,18 +159,18 @@ This have three advantages according to StackOverflow answer;
   2. One can rapidly compare commits just by looking at their IDs.
   3. Two commits with the same IDs have the same history.
 
-QUESTION:
+**QUESTION:**
 How might using version control make you more confident to make changes that
 could break something?
-ANSWER:
+**ANSWER:**
 With version control system we have many versions of the repository files saved
 at different times. If we detect a bug in the program, we can revert to earlier 
 commits incrementally to find in which commit the bug is introduced. Then we 
 can fix the change that caused bug in a new commit.
 
-QUESTION
+**QUESTION**
 Now that you have your workspace set up, what do you want to try using Git for?
-ANSWER
+**ANSWER**
 First of all, I want to use Git in my personal project to enhance my knowledge
 on Git. This will also help me to increase quality of my personal project. I 
 will also the support suggestion of using Git on our workplace. Our current 
@@ -173,10 +180,11 @@ project but smaller commit policy of Git might be presented to peers and be
 accepted by them. This way verification process will be far easier. A commit 
 with thousand line change is really hard to verifiy.*RENT OVER*
 
-EXAMPLE GIT DIFF ANALYZE
-Below you will see how to analyze and read <git diff> output.
+## Example git diff Analyze
 
-/code
+Below you will see how to analyze and read `git diff` output.
+
+```bash
 $ git diffcu 8c5a a986          ## Actually typed command
 diff --git a/git.txt b/git.txt  ## Command reformatted by bash
 index 1007de0..3e6a4ec 100644   
@@ -190,9 +198,9 @@ index 1007de0..3e6a4ec 100644
 +Version Info: 0
 +I sacrificed everything. What have YOU given? -Edgy Demon Hunter, 2017
 +Version Info: 1
-/code
+```
 
-@@ -1,4 +1,4 @@ means 4 lines starting from 1st line of old file and 4 lines 
+`@@ -1,4 +1,4 @@` means 4 lines starting from 1st line of old file and 4 lines 
 starting from 1st line of new file is shown below. Simply put "-/+ x,y" can be 
 read like below;
   1. -/+ : Negative sign is prefix for old file and positive sign is prefix for
@@ -207,11 +215,13 @@ Note 1: "git diff ." command lists changes since last commit.
 Note 2: "git diff abc123 def456" shows difference between abc123 as 
          old(not updated) version of repository and def456 as new(updated) 
 	 version of repository
-GIT CLONE
+
+## git clone
 This command copies repository into local storage with all its history.
 But cloned repository is only local, meaning changes done on cloned repository
 does not modify original repository directly.
-GIT COMMIT
+
+## git commit
 Initializing a repository to a Git repository does not commit anything.There 
 are Couple reasons for this. First, user might not want to commit the files
 in the repository at the time of initialization. Secondly, user would not be 
