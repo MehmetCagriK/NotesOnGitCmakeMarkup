@@ -1,17 +1,17 @@
 VERSION CONTROL SYSTEMS: CENTRALIZED VS DECENTRALIZED
 There are centralized version systems like SVN, CVS etc. And there are also
-decentralized version systems like Git and Mercurial. Each have their own 
+decentralized version systems like Git and Mercurial. Each has their own 
 advantages and disadvantages.
 
 CENTRALIZED VERSION CONTROL
 Centralized version control systems are based on the idea that there is a 
 single “central” copy of your project somewhere (probably on a server), and
-programmers will “commit” their changes to this central copy. Developers 
-don' t have to keep a copy many versions of the project files since version 
-control can talk to the central copy and get retrive any changes easily.
+programmers will **commit** their changes to this central copy. Developers 
+don' t have to keep copies of many versions of the project files since version 
+control can talk to the central copy and retrive any changes easily.
 
 A TYPICAL CENTRALIZED VERSION WORKFLOW
-1. Pull down any changes people made to central server.
+1. Pull down any changes people saved to the central server.
 2. Make your changes on local copy and make sure it works.
 3. Commit your changes to central server, so other can see too.
 
