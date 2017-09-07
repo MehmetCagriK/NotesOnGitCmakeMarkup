@@ -114,6 +114,24 @@ them into remote repository's master branch. Just make your changes isolated
 in a branch, than push it to remote repository. Then get to GitHub repository's
 web page. Switch to your newly pushed change branch, and click "Pull Request".
 
+Pull request will notify the owner of that repository. The owner then can 
+review your changes and if he/she agrees to merge changes into his repository,
+owner can accept merging or reject. 
 
+**Question:** How would you collaborate without using Git or GitHub? What would
+be easier, and what would be harder?
+**Answer:** An option(however a bad one) would be sharing my project files with 
+others by sending them as whole. This would be far slower than using Git/GitHub.
+I would also use another decentralized version control system like Mercury.
 
-   
+**Question**: When would you want to make changes in a separate branch rather 
+than directly in master? What benefits does each approach have?
+**Answer**  : If my planned work is linear, like not an experimental work, I 
+would prefer working on master branch. This saves me trouble of merging a branch
+into master when I know this work will not be optional. Other than that, if I am
+working on an experimental path, without considering collaboration with other 
+people I would still use branching and keep my master branch clean of any 
+experiments. Branching would also lead to clearer collaboration with other 
+people if we especially working on a professional project and want to keep 
+master lean and tidy.
+
