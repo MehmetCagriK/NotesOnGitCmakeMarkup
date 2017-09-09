@@ -3,7 +3,7 @@
 operating system and in a compiler-independent manner. CMake is designed to be
 used with native build environments.
 
-Simple configuration files in each source directory(called CMakeLists.txt) are
+>Simple configuration files in each source directory(called CMakeLists.txt) are
 used to generate standard build files(Makefiles in Linux and 
 Projects/Workspaces in Windows) which are used in usual way.
 
@@ -23,7 +23,7 @@ effectively.
 
 # Quick Start
 
-Create the example file above and save it.
+Create the example file below and save it.
 
 ```
 // test.cpp
@@ -76,8 +76,10 @@ To compile the test cpp, add the line below to the end of "CmakeLists.txt";
 Now time has come to build the source code with CMake. Type the commands below;
 ```
 $ cmake -H. -Bbuild
-$ cmake --build build -- -j3
+$ cmake --build build
 ```
 
 First command will create CMake build files inside folder "build" and second 
 command  will generate output of the program hello inside "bin" folder.
+
+Go try your executable now(Wherever it is generated).
