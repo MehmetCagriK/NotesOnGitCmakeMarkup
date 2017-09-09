@@ -1,0 +1,83 @@
+# What is CMake?
+> CMake is an extensible open-source system that manages build process in an 
+operating system and in a compiler-independent manner. CMake is designed to be
+used with native build environments.
+
+Simple configuration files in each source directory(called CMakeLists.txt) are
+used to generate standard build files(Makefiles in Linux and 
+Projects/Workspaces in Windows) which are used in usual way.
+
+CMake can;
+1. Generate native build environment that will compile code
+2. Create libraries
+3. Generate Wrappers
+4. Build executables
+in any arbitrary combination.
+
+CMake can support in/out-of-place builds and therefore can support multiple
+builds from single source tree. CMake also supports static and dynamic library
+builds.
+
+In short conclusion: CMake helps to you manage build your source codes 
+effectively.
+
+# Quick Start
+
+Create the example file above and save it.
+
+```
+// test.cpp
+#include <iostream>
+using namespace std;
+
+int main(void) {
+     cout << "Hello World" << endl;
+     return(0);
+}
+```
+
+Create the example CMakeLists.txt below and save it.
+
+```
+# Specify the minimum version for CMake
+
+cmake_minimum_required(VERSION 2.8)
+
+# Project's name
+
+project(hello)
+# Set the output folder where your program will be created
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+
+# The following folder will be included
+include_directories("${PROJECT_SOURCE_DIR}")
+```
+
+## List of CMake Global Variables
+
+- `CMAKE_SOURCE_DIR`: The directory which CMake was started from(Top level 
+    directory)
+- `CMAKE_BINARY_DIR`: If you are building in-source, this is the same as 
+    `CMAKE_SOURCE_DIR`, otherwise top-level directory.
+- `EXECUTABLE_OUTPUT_PATH`: Set this variable to a common place where you want 
+    CMake should put your executable files into.
+- `LIBRARY_OUTPUT_PATH`: Set this variable to a common place where you want 
+    CMake should put all libraries into.
+- `PROJECT_NAME`: A name given in __CMakeLists.txt__ file with `project()` 
+    command. 
+- `PROJECT_SOURCE_DIR`: Contains the full path of your project source 
+    directory.
+
+To compile the test cpp, add the line below to the end of "CmakeLists.txt";
+`add_executable(hello ${PROJECT_SOURCE_DIR}/test.cpp)`
+
+Now time has come to build the source code with CMake. Type the commands below;
+```
+$ cmake -H. -Bbuild
+$ cmake --build build -- -j3
+```
+
+First command will create CMake build files inside folder "build" and second 
+command  will generate output of the program hello inside "bin" folder.
