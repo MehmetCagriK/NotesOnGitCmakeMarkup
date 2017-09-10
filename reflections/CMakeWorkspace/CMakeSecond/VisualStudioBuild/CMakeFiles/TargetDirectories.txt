@@ -1,0 +1,3 @@
+D:/GitWorkplace/reflections/CMakeWorkspace/CMakeSecond/VisualStudioBuild/CMakeFiles/toDo.dir
+D:/GitWorkplace/reflections/CMakeWorkspace/CMakeSecond/VisualStudioBuild/CMakeFiles/ALL_BUILD.dir
+D:/GitWorkplace/reflections/CMakeWorkspace/CMakeSecond/VisualStudioBuild/CMakeFiles/ZERO_CHECK.dir
