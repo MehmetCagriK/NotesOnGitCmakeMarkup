@@ -241,6 +241,135 @@ We will make the ToDo class its own library and put it in a subdirectory. Even
 though ToDo is a single source file, it will be compiled as many times as it is
 included in the targets. Imagine if you got hundreds of commonly used source 
 files.
+```
+
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+
+project("To Do List")
+
+enable_testing()
+
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(warnings "-Wall -Wextra -Werror")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(warnings "/W4 /WX /EHsc")
+endif()
+if (NOT CONFIGURED_ONCE)
+    set(CMAKE_CXX_FLAGS "${warnings}"
+        CACHE STRING "Flags used by the compiler during all build types." FORCE)
+    set(CMAKE_C_FLAGS   "${warnings}"
+        CACHE STRING "Flags used by the compiler during all build types." FORCE)
+endif()
+
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(ToDoCore)
+
+add_executable(toDo main.cc)
+target_link_libraries(toDo toDoCore)
+
+add_test(toDoTest toDo)
+
+
+set(CONFIGURED_ONCE TRUE CACHE INTERNAL
+    "A flag showing that CMake has configured at least once.")
+
+```
+
+As you can see now, our target ``toDo`` now depends only on main.cc and 
+``toDoCore``. The project also has a new directory called __ToDoCore__.
+
+Now let's dissect the commands used in this CMakeLists.txt
+
+- ``include_directories(directories)``: Adds directories to the end of directory
+list this project looks for files to include. We did not use this before since
+all files were in same directory before.
+
+- ``CMAKE_CURRENT_SOURCE_DIR``: The full path to source directory which is 
+processed by CMake currently.
+
+- ``add_subdirectory(source_dir)``: Include __source_dir__ in your project. This
+directory must contain __CMakeLists.txt__ file. For now, we are omitting second
+parameter of this command. It only works when you are adding sub-directory of
+the current directory.Check "CMakeLists.txt" to see we only give relative 
+directory name instead of full path.
+
+- ``target_link_libraries(target library…)``: Specify that target needs to be 
+linked against one or more libraries. If a library name matches another target 
+dependencies are setup automatically so that the libraries will be built 
+first and target will be updated whenever any of the libraries are.
+
+If the target is executable, it will be linked against the listed libraries.
+If the target is not executable, it's dependency on these libraries will be 
+recorded. Then when someoneis linked against target, it will also be linked 
+against target's dependencies. This makes it easier to handle a library's 
+dependencies as you only need to define dependency once when library is created.
+
+We added a subdirectory that should have __CMakeLists.txt__ in it. Let's see 
+what is in there;
+
+```
+add_library(toDoCore toDo.cc)
+```
+Let's see generic version of this command.
+
+`` add_library(target STATIC | SHARED | MODULE sources…)``
+
+This command creates a new library target built from sources. 
+
+- ``STATIC``: Used to create archive of objects that are linked directly to 
+other targets.
+- ``SHARED``: Shared libraries are linked dynamically and loaded at runtime.
+- ``MODULE``: Module libraries are plug-ins that are not linked but loaded at
+  the runtime.
+
+Generate your project files first. Then get into desired build directory, build
+your project. Let's check the output of these operations
+
+```
+
+Cagri@DESKTOP-GAM3TQS MINGW64 /d/GitWorkplace/reflections/CMakeWorkspace/third/B                                     uild (master)
+$ cmake -G "Unix Makefiles" ..
+
+-- The C compiler identification is GNU 5.1.0
+-- The CXX compiler identification is GNU 5.1.0
+-- Check for working C compiler: C:/TDM-GCC-64/bin/gcc.exe
+-- Check for working C compiler: C:/TDM-GCC-64/bin/gcc.exe -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: C:/TDM-GCC-64/bin/c++.exe
+-- Check for working CXX compiler: C:/TDM-GCC-64/bin/c++.exe -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/GitWorkplace/reflections/CMakeWorkspace
+    /third/Build
+
+$make
+
+Scanning dependencies of target toDoCore
+[ 25%] Building CXX object ToDoCore/CMakeFiles/toDoCore.dir/ToDo.cc.obj
+[ 50%] Linking CXX static library libtoDoCore.a
+[ 50%] Built target toDoCore
+Scanning dependencies of target toDo
+[ 75%] Building CXX object CMakeFiles/toDo.dir/main.cc.obj
+[100%] Linking CXX executable toDo.exe
+
+```
+
+See that first toDoCore, then toDo.exe is built.
+
+
+
 
 
 
