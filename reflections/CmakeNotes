@@ -38,22 +38,31 @@ int main(void) {
 
 Create the example CMakeLists.txt below and save it.
 
-```
-# Specify the minimum version for CMake
+    ```
+    # Specify the minimum version for CMake
 
-cmake_minimum_required(VERSION 2.8)
+    cmake_minimum_required(VERSION 2.8)
 
-# Project's name
+    # Project's name
 
-project(hello)
-# Set the output folder where your program will be created
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+    project(hello)
+    # Set the output folder where your program will be created
+    set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+    set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+    set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-# The following folder will be included
-include_directories("${PROJECT_SOURCE_DIR}")
-```
+    # The following folder will be included
+    include_directories("${PROJECT_SOURCE_DIR}")
+
+    # Build target from source file
+    add_executable(hello ${PROJECT_SOURCE_DIR}/test.cpp)
+    ```
+
+- ``project(ProjectName)``: This command names our project. If project name 
+includes spaces, you should write name between quotes(").
+- ``add_executable(TargetName <src1> <src2>...): This command tells CMake
+you want to make an executable and add it as a target. First argument is the
+name of executable and rest is source files.
 
 ## List of CMake Global Variables
 
@@ -83,3 +92,67 @@ First command will create CMake build files inside folder "build" and second
 command  will generate output of the program hello inside "bin" folder.
 
 Go try your executable now(Wherever it is generated).
+
+# CMake Study Ver. 2
+I found [CMake Tutorial](https://www.johnlamp.net/cmake-tutorial.html) given 
+in the link better than first part of the one helped me to compose first part of
+this document.
+
+## Introduction
+### CMakeLists.txt
+Just as any IDE has project files or Make has Makefiles, CMake has 
+__CMakeLists.txt__ . These describes your project to CMake and affects its 
+outputs. Below is an example CMakeLists.txt
+
+```
+project("To Do List")
+
+add_exectuable(toDo main.cpp ToDo.cpp)
+```
+
+- ``project(ProjectName)``: This command names our project. If project name 
+includes spaces, you should write name between quotes(").
+- ``add_executable(TargetName <src1> <src2>...): This command tells CMake
+you want to make an executable and add it as a target. First argument is the
+name of executable and rest is source files.
+
+### Source Files
+CMake's documentation highly suggests that out-of-souce builds to be used 
+instead of in-source-builds. It has an advantage of isolating build files from 
+source code. This way, it is easier just to delete build folder and move on
+when we want to clean build files really.
+
+To build your first project, type the commands below;
+
+```
+# Type this when you are in root of your project directory.
+$ mkdir build
+
+# Change directory to build
+$ cd build
+
+# Build
+$ cmake .. -G "Unix MakeFiles"
+
+```
+
+- ``mkdir build``: build directory does not have to be in your source directory.
+- ``cmake .. -G <generator name>``: This allows us to tell CMake what kind of 
+project files it should generate. Use ``cmake --help`` to see list of generators
+supported by your platform. We used (..) since __CMakeLists.txt__ is in one 
+upper level. Without it, we will have an error message saying __CmakeLists.txt__
+could not be found.
+
+CMake generates several files that shall not be touched. __Makefile__ is the 
+most important since we will use it to build project. __CmakeCache.txt__ is 
+important for CMake since it stores various information and settings for the 
+project.
+
+Finally you can type ``make`` command in the directory of MakeFile to build
+project. Use ``make VERBOSE=1`` allow more output during build.
+
+# IDE Integration
+CMake could 
+
+
+
