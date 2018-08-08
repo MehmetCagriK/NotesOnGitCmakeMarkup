@@ -46,29 +46,28 @@ Below you will see syntax of GitHub flavoured markdown.
 
 BOLD
 To make a text bold surround it with double asterisks.
-/code
+```
 **I am bold**
-/code
+```
 
 ITALIC
 To italicize a text, surround it with underscores.
-/code
+```
 I like _italian_ pizza.
-/code
+```
 
 CODE
 Inline code is useful for indicating you are writing code, not regular words.
 Surround your code text with double backticks.
-/code
-`int * number = 0;`
-/code
+``int * number = 0;``
 
 But if you want to quote a code block, use triple backticks.
-/code
+```
 ```
 git status
 git add
 git commit
+```
 ```
 /code
 
