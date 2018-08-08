@@ -1,3 +1,4 @@
+# Introduction
 "You should get excited about documenting your own code" - Wise Man.
 Unlike source code which is written for computers, documentation is for humans.
 Not only you! You should document your code for other people to understand too.
@@ -32,7 +33,7 @@ suggestions for better README files.
 - Have a section that informs users about contributing your project like code of
   conduct etc.
 
-Markdown
+# Markdown Formatting
 Markdown is a light markup language often used for README files.It is 
 straightforward and much of its syntax is intuitive.
 
@@ -44,74 +45,75 @@ We mentioned versions of markdown. They are like real life dialects of a
 language, with minor differences. They are called flavor of markdown.
 Below you will see syntax of GitHub flavoured markdown.
 
-BOLD
+## Bold
+
 To make a text bold surround it with double asterisks.
 ```
-**I am bold**
+RAW: **I am bold**
 ```
+OUTPUT: **I am bold**
+## Italic
 
-ITALIC
 To italicize a text, surround it with underscores.
 ```
-I like _italian_ pizza.
+RAW: I like _italian_ pizza.
 ```
+OUTPUT: I like _italian_ pizza.
+## Code
 
-CODE
 Inline code is useful for indicating you are writing code, not regular words.
 Surround your code text with double backticks.
 ``int * number = 0;``
 
 But if you want to quote a code block, use triple backticks.
-```
+
 ```
 git status
 git add
 git commit
 ```
-```
-/code
 
-TITLES
-From bigger to smaller, you can write titles from **h1** through **h6** with 
-# symbols.
-/code
+
+## Titles
+From bigger to smaller, you can write titles from **h1** through **h6** with # symbols.
+```
 ## This is an h2
 ##### This is an h5
-/code
+```
 
-STRIKETHROUGH
-To make your text strikethrough, surround it with ~~(double tilde)
-/code
-This text is ~~strikethrough~~
-/code
-
-LINK
+## Strikethrough
+To make your text strikethrough, surround it with \~\~(double tilde)
+```
+RAW: This text is ~~strikethrough~~
+```
+OUTPUT: This text is ~~strikethrough~~
+## Link
 You can create an inline link by enclosing your link's name with [ ] and then
 enclosing your URL with ( ).
-/code
+```
 This site was built using [GitHub Pages](https://pages.github.com/).
-/code
+```
 
-SECTION LINKS
+## Section Links
 You can link directly to a section in a rendered file by hovering over the 
-section heading to expose the link:i
+section heading to expose the link.
 
-RELATIVE LINKS
+## Relative Links
 You can create links to other files relative to your current markdown document.
 Assume README.md is in top directory and image.jpg is under docs directory.
-/code
+```
 [Check image](docs/image.jpg)
-/code
+```
 
 Note: GitHub will automatically transform your relative link or image path 
 based on whatever branch you're currently on, so that the link or path always 
 works. You can use all relative link operands, such as ./ and ../ .
 
-LISTS
+## Lists
 Finally we are on the lists.For unordered lists, you can use - or * .
 For ordered lists, precede each line with a number and a dot afterwards.
 You can combine ordered and unordered lists together.
-/code
+```
 1. Make my changes
     1. Fix bug
     2. Improve formatting
@@ -121,23 +123,37 @@ You can combine ordered and unordered lists together.
     * Describe my changes
     * Mention all the members of my team
         * Ask for feedback
-/code
+```
+1. Make my changes
+    1. Fix bug
+    2. Improve formatting
+        - Make the headings bigger
+2. Push my commits to GitHub
+3. Open a pull request
+    * Describe my changes
+    * Mention all the members of my team
+        * Ask for feedback
 
-TASk LISTS
+## Task Lists
 To create a tasklist, preface items with [ ]. To mark a task as complete, use
 [x].
-/code
+```
+RAW:
 - [x] Finish my changes
 - [ ] Push my commits to GitHub
 - [ ] Open a pull request
-/code
+```
+OUTPUT:
+- [x] Finish my changes
+- [ ] Push my commits to GitHub
+- [ ] Open a pull request
 
-ESCAPE CHARACTER
+## Escape Character
 You can use backslash(\) before characters that break markdown patterns.
 
-MENTIONING OTHER USERS AND TEAMS
+## Mentioning Other Users or Teams
 To mention a user or a team, type @ before their name to trigger a notification
 and bring their attention to an issue or pull request.
 
-PHARAGRAPHS AND BREAKS
+## Pharagraphs
 Leave a blank line between pharagraphs to seperate them.
